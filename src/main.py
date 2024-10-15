@@ -1,12 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
-import graphviz
 from PIL import Image, ImageTk
 import os
-from collections import deque
+from graph import Graph  # Importa la clase Graph del archivo graph.py
 
 # Definir el directorio donde se guardarán las imágenes
-ASSETS_DIR = r"C:\Users\usuario\Desktop\MPC2\assets"
+ASSETS_DIR = "C:\\Users\\usuario\\Desktop\\MPC2\\assets"
 
 class GraphApp:
     def __init__(self, root):
@@ -84,7 +83,7 @@ class GraphApp:
             messagebox.showerror("Error", "Formato incorrecto. Use A-B.")
 
     def render_graph(self):
-        # Genera el grafo original con Graphviz
+        # Genera el grafo original
         self.graph.render_graph('original')
         self.show_image(os.path.join(ASSETS_DIR, 'original.png'), self.original_canvas)
 
@@ -115,67 +114,7 @@ class GraphApp:
             canvas.config(image=img_tk)
             canvas.image = img_tk
 
-class Graph:
-    def __init__(self):
-        self.graph = {}
-
-    def add_vertex(self, v):
-        if v not in self.graph:
-            self.graph[v] = []
-
-    def add_edge(self, u, v):
-        if u in self.graph and v in self.graph:
-            self.graph[u].append(v)
-            self.graph[v].append(u)  # Solo agrega una conexión para grafo no dirigido
-
-    def bfs(self, start):
-        # Implementación del algoritmo BFS
-        visited = set()
-        queue = deque([start])
-        bfs_order = []
-
-        while queue:
-            vertex = queue.popleft()
-            if vertex not in visited:
-                visited.add(vertex)
-                bfs_order.append(vertex)
-                queue.extend([neighbor for neighbor in self.graph[vertex] if neighbor not in visited])
-
-        return bfs_order
-
-    def dfs(self, start):
-        # Implementación del algoritmo DFS
-        visited = set()
-        dfs_order = []
-        self._dfs_recursive(start, visited, dfs_order)
-        return dfs_order
-
-    def _dfs_recursive(self, vertex, visited, dfs_order):
-        visited.add(vertex)
-        dfs_order.append(vertex)
-        for neighbor in self.graph[vertex]:
-            if neighbor not in visited:
-                self._dfs_recursive(neighbor, visited, dfs_order)
-
-    def render_graph(self, name, result=None):
-        dot = graphviz.Graph()
-        for vertex in self.graph:
-            dot.node(vertex)
-        for vertex in self.graph:
-            for neighbor in self.graph[vertex]:
-                dot.edge(vertex, neighbor)  # Generar el grafo no dirigido
-
-        if result:
-            for node in result:
-                dot.node(node, color="red")  # Marcar los nodos visitados
-
-        # Guardar la imagen en la carpeta de assets
-        output_path = os.path.join(ASSETS_DIR, f"{name}.png")
-        dot.render(output_path.split('.png')[0], format="png")
-
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = GraphApp(root)
     root.mainloop()  # Esto es crucial para que la ventana se muestre
-
