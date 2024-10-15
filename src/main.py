@@ -5,9 +5,6 @@ from PIL import Image, ImageTk
 import os
 from collections import deque
 
-print("Iniciando aplicación...")  # Mensaje de prueba para asegurar que el script arranca bien
-
-
 class GraphApp:
     def __init__(self, root):
         self.root = root
@@ -17,6 +14,8 @@ class GraphApp:
         # Variables para la interfaz
         self.vertex_entry = tk.Entry(self.root)
         self.edge_entry = tk.Entry(self.root)
+        self.vertex_listbox = tk.Listbox(self.root, height=6)  # Lista para mostrar vértices agregados
+        self.edge_listbox = tk.Listbox(self.root, height=6)    # Lista para mostrar aristas agregadas
 
         # Estructura básica de la GUI
         self.setup_ui()
@@ -33,22 +32,33 @@ class GraphApp:
 
         tk.Button(self.root, text="Generar Grafo", command=self.render_graph).grid(row=2, column=1)
 
+        # Mostrar vértices y aristas agregadas
+        tk.Label(self.root, text="Vértices Agregados:").grid(row=3, column=0)
+        self.vertex_listbox.grid(row=4, column=0)
+
+        tk.Label(self.root, text="Aristas Agregadas:").grid(row=3, column=1)
+        self.edge_listbox.grid(row=4, column=1)
+
         # Área para visualizar el grafo original
         self.original_canvas = tk.Label(self.root)
-        self.original_canvas.grid(row=3, column=0, columnspan=3)
+        self.original_canvas.grid(row=5, column=0, columnspan=3)
 
         # Botones para ejecutar BFS y DFS
-        tk.Button(self.root, text="Ejecutar BFS", command=self.run_bfs).grid(row=4, column=0)
-        tk.Button(self.root, text="Ejecutar DFS", command=self.run_dfs).grid(row=4, column=2)
+        tk.Button(self.root, text="Ejecutar BFS", command=self.run_bfs).grid(row=6, column=0)
+        tk.Button(self.root, text="Ejecutar DFS", command=self.run_dfs).grid(row=6, column=2)
 
         # Área para visualizar el grafo resultante de BFS o DFS
-        self.result_canvas = tk.Label(self.root)
-        self.result_canvas.grid(row=5, column=0, columnspan=3)
+        self.bfs_canvas = tk.Label(self.root)
+        self.bfs_canvas.grid(row=7, column=0, columnspan=3)
+
+        self.dfs_canvas = tk.Label(self.root)
+        self.dfs_canvas.grid(row=8, column=0, columnspan=3)
 
     def add_vertex(self):
         vertex = self.vertex_entry.get()
         if vertex:
             self.graph.add_vertex(vertex)
+            self.vertex_listbox.insert(tk.END, vertex)  # Mostrar el vértice en la lista
             messagebox.showinfo("Éxito", f"Vértice {vertex} agregado.")
         else:
             messagebox.showerror("Error", "Debe ingresar un vértice.")
@@ -58,6 +68,7 @@ class GraphApp:
         try:
             u, v = edge.split('-')
             self.graph.add_edge(u.strip(), v.strip())
+            self.edge_listbox.insert(tk.END, f"{u} -- {v}")  # Mostrar la arista en la lista
             messagebox.showinfo("Éxito", f"Arista {u} -- {v} agregada.")
         except ValueError:
             messagebox.showerror("Error", "Formato incorrecto. Use A-B.")
@@ -74,7 +85,7 @@ class GraphApp:
             return
         bfs_result = self.graph.bfs(start_vertex)
         self.graph.render_graph('bfs', bfs_result)
-        self.show_image('bfs.png', self.result_canvas)
+        self.show_image('bfs.png', self.bfs_canvas)
 
     def run_dfs(self):
         start_vertex = self.vertex_entry.get()
@@ -83,7 +94,7 @@ class GraphApp:
             return
         dfs_result = self.graph.dfs(start_vertex)
         self.graph.render_graph('dfs', dfs_result)
-        self.show_image('dfs.png', self.result_canvas)
+        self.show_image('dfs.png', self.dfs_canvas)
 
     def show_image(self, image_path, canvas):
         # Muestra la imagen generada en la interfaz gráfica
@@ -105,7 +116,7 @@ class Graph:
     def add_edge(self, u, v):
         if u in self.graph and v in self.graph:
             self.graph[u].append(v)
-            self.graph[v].append(u)
+            self.graph[v].append(u)  # Solo agrega una conexión para grafo no dirigido
 
     def bfs(self, start):
         # Implementación del algoritmo BFS
@@ -142,7 +153,7 @@ class Graph:
             dot.node(vertex)
         for vertex in self.graph:
             for neighbor in self.graph[vertex]:
-                dot.edge(vertex, neighbor)
+                dot.edge(vertex, neighbor)  # Generar el grafo no dirigido
 
         if result:
             for node in result:
