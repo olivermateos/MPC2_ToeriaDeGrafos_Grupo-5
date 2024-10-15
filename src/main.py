@@ -5,11 +5,18 @@ from PIL import Image, ImageTk
 import os
 from collections import deque
 
+# Definir el directorio donde se guardarán las imágenes
+ASSETS_DIR = r"C:\Users\usuario\Desktop\MPC2\assets"
+
 class GraphApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Visualizador de Grafos - BFS & DFS")
         self.graph = Graph()
+
+        # Crear el directorio de assets si no existe
+        if not os.path.exists(ASSETS_DIR):
+            os.makedirs(ASSETS_DIR)
 
         # Variables para la interfaz
         self.vertex_entry = tk.Entry(self.root)
@@ -40,19 +47,22 @@ class GraphApp:
         self.edge_listbox.grid(row=4, column=1)
 
         # Área para visualizar el grafo original
+        tk.Label(self.root, text="Grafo Original:").grid(row=5, column=0)
         self.original_canvas = tk.Label(self.root)
-        self.original_canvas.grid(row=5, column=0, columnspan=3)
+        self.original_canvas.grid(row=6, column=0, columnspan=3)
 
         # Botones para ejecutar BFS y DFS
-        tk.Button(self.root, text="Ejecutar BFS", command=self.run_bfs).grid(row=6, column=0)
-        tk.Button(self.root, text="Ejecutar DFS", command=self.run_dfs).grid(row=6, column=2)
+        tk.Button(self.root, text="Ejecutar BFS", command=self.run_bfs).grid(row=7, column=0)
+        tk.Button(self.root, text="Ejecutar DFS", command=self.run_dfs).grid(row=7, column=2)
 
         # Área para visualizar el grafo resultante de BFS o DFS
+        tk.Label(self.root, text="Grafo BFS:").grid(row=8, column=0)
         self.bfs_canvas = tk.Label(self.root)
-        self.bfs_canvas.grid(row=7, column=0, columnspan=3)
+        self.bfs_canvas.grid(row=9, column=0, columnspan=3)
 
+        tk.Label(self.root, text="Grafo DFS:").grid(row=10, column=0)
         self.dfs_canvas = tk.Label(self.root)
-        self.dfs_canvas.grid(row=8, column=0, columnspan=3)
+        self.dfs_canvas.grid(row=11, column=0, columnspan=3)
 
     def add_vertex(self):
         vertex = self.vertex_entry.get()
@@ -76,7 +86,7 @@ class GraphApp:
     def render_graph(self):
         # Genera el grafo original con Graphviz
         self.graph.render_graph('original')
-        self.show_image('original.png', self.original_canvas)
+        self.show_image(os.path.join(ASSETS_DIR, 'original.png'), self.original_canvas)
 
     def run_bfs(self):
         start_vertex = self.vertex_entry.get()
@@ -85,7 +95,7 @@ class GraphApp:
             return
         bfs_result = self.graph.bfs(start_vertex)
         self.graph.render_graph('bfs', bfs_result)
-        self.show_image('bfs.png', self.bfs_canvas)
+        self.show_image(os.path.join(ASSETS_DIR, 'bfs.png'), self.bfs_canvas)
 
     def run_dfs(self):
         start_vertex = self.vertex_entry.get()
@@ -94,13 +104,13 @@ class GraphApp:
             return
         dfs_result = self.graph.dfs(start_vertex)
         self.graph.render_graph('dfs', dfs_result)
-        self.show_image('dfs.png', self.dfs_canvas)
+        self.show_image(os.path.join(ASSETS_DIR, 'dfs.png'), self.dfs_canvas)
 
     def show_image(self, image_path, canvas):
         # Muestra la imagen generada en la interfaz gráfica
         if os.path.exists(image_path):
             img = Image.open(image_path)
-            img = img.resize((400, 300), Image.ANTIALIAS)
+            img = img.resize((400, 300), Image.Resampling.LANCZOS)  # Reemplazamos ANTIALIAS con LANCZOS
             img_tk = ImageTk.PhotoImage(img)
             canvas.config(image=img_tk)
             canvas.image = img_tk
@@ -159,7 +169,10 @@ class Graph:
             for node in result:
                 dot.node(node, color="red")  # Marcar los nodos visitados
 
-        dot.render(f"{name}.gv", format="png")
+        # Guardar la imagen en la carpeta de assets
+        output_path = os.path.join(ASSETS_DIR, f"{name}.png")
+        dot.render(output_path.split('.png')[0], format="png")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
