@@ -13,10 +13,10 @@ class Graph:
     def add_edge(self, u, v):
         if u in self.graph and v in self.graph:
             self.graph[u].append(v)
-            self.graph[v].append(u)  # Solo agrega una conexión para grafo no dirigido
+            self.graph[v].append(u)  
 
     def bfs(self, start):
-        # Implementación del algoritmo BFS
+
         visited = set()
         queue = deque([start])
         bfs_order = []
@@ -31,7 +31,7 @@ class Graph:
         return bfs_order
 
     def dfs(self, start):
-        # Implementación del algoritmo DFS
+
         visited = set()
         dfs_order = []
         self._dfs_recursive(start, visited, dfs_order)
@@ -50,12 +50,12 @@ class Graph:
             dot.node(vertex)
         for vertex in self.graph:
             for neighbor in self.graph[vertex]:
-                dot.edge(vertex, neighbor)  # Generar el grafo no dirigido
+                dot.edge(vertex, neighbor)  
 
         if result:
             for node in result:
-                dot.node(node, color="red")  # Marcar los nodos visitados
+                dot.node(node, color="red") 
 
-        # Guardar la imagen en la carpeta de assets
+
         output_path = os.path.join("C:\\Users\\usuario\\Desktop\\MPC2\\assets", f"{name}.png")
         dot.render(output_path.split('.png')[0], format="png")
