@@ -27,41 +27,42 @@ class GraphApp:
         self.setup_ui()
 
     def setup_ui(self):
-        # Sección de ingreso de vértices y aristas
-        tk.Label(self.root, text="Vértice:").grid(row=0, column=0)
+        self.root.configure(bg='lightblue')
+        self.root.geometry("600x600")
+
+        tk.Label(self.root, text="Vértice:", bg='lightblue', font=('Helvetica', 12)).grid(row=0, column=0)
         self.vertex_entry.grid(row=0, column=1)
-        tk.Button(self.root, text="Agregar Vértice", command=self.add_vertex).grid(row=0, column=2)
+        tk.Button(self.root, text="Agregar Vértice", command=self.add_vertex, bg='green', fg='white', font=('Helvetica', 10)).grid(row=0, column=2)
 
-        tk.Label(self.root, text="Arista (formato: A-B):").grid(row=1, column=0)
+        tk.Label(self.root, text="Arista (formato: A-B):", bg='lightblue', font=('Helvetica', 12)).grid(row=1, column=0)
         self.edge_entry.grid(row=1, column=1)
-        tk.Button(self.root, text="Agregar Arista", command=self.add_edge).grid(row=1, column=2)
+        tk.Button(self.root, text="Agregar Arista", command=self.add_edge, bg='green', fg='white', font=('Helvetica', 10)).grid(row=1, column=2)
 
-        tk.Button(self.root, text="Generar Grafo", command=self.render_graph).grid(row=2, column=1)
+        tk.Button(self.root, text="Generar Grafo", command=self.render_graph, bg='blue', fg='white', font=('Helvetica', 10)).grid(row=2, column=1)
 
-        # Mostrar vértices y aristas agregadas
-        tk.Label(self.root, text="Vértices Agregados:").grid(row=3, column=0)
+        tk.Label(self.root, text="Vértices Agregados:", bg='lightblue', font=('Helvetica', 12)).grid(row=3, column=0)
+        self.vertex_listbox = tk.Listbox(self.root, height=6, bg='lightyellow', font=('Helvetica', 10))
         self.vertex_listbox.grid(row=4, column=0)
 
-        tk.Label(self.root, text="Aristas Agregadas:").grid(row=3, column=1)
+        tk.Label(self.root, text="Aristas Agregadas:", bg='lightblue', font=('Helvetica', 12)).grid(row=3, column=1)
+        self.edge_listbox = tk.Listbox(self.root, height=6, bg='lightyellow', font=('Helvetica', 10))
         self.edge_listbox.grid(row=4, column=1)
 
-        # Área para visualizar el grafo original
-        tk.Label(self.root, text="Grafo Original:").grid(row=5, column=0)
-        self.original_canvas = tk.Label(self.root)
+        tk.Label(self.root, text="Grafo Original:", bg='lightblue', font=('Helvetica', 12)).grid(row=5, column=0)
+        self.original_canvas = tk.Label(self.root, bg='white')
         self.original_canvas.grid(row=6, column=0, columnspan=3)
 
-        # Botones para ejecutar BFS y DFS
-        tk.Button(self.root, text="Ejecutar BFS", command=self.run_bfs).grid(row=7, column=0)
-        tk.Button(self.root, text="Ejecutar DFS", command=self.run_dfs).grid(row=7, column=2)
+        tk.Button(self.root, text="Ejecutar BFS", command=self.run_bfs, bg='orange', fg='black', font=('Helvetica', 10)).grid(row=7, column=0)
+        tk.Button(self.root, text="Ejecutar DFS", command=self.run_dfs, bg='orange', fg='black', font=('Helvetica', 10)).grid(row=7, column=2)
 
-        # Área para visualizar el grafo resultante de BFS o DFS
-        tk.Label(self.root, text="Grafo BFS:").grid(row=8, column=0)
-        self.bfs_canvas = tk.Label(self.root)
+        tk.Label(self.root, text="Grafo BFS:", bg='lightblue', font=('Helvetica', 12)).grid(row=8, column=0)
+        self.bfs_canvas = tk.Label(self.root, bg='white')
         self.bfs_canvas.grid(row=9, column=0, columnspan=3)
 
-        tk.Label(self.root, text="Grafo DFS:").grid(row=10, column=0)
-        self.dfs_canvas = tk.Label(self.root)
+        tk.Label(self.root, text="Grafo DFS:", bg='lightblue', font=('Helvetica', 12)).grid(row=10, column=0)
+        self.dfs_canvas = tk.Label(self.root, bg='white')
         self.dfs_canvas.grid(row=11, column=0, columnspan=3)
+
 
     def add_vertex(self):
         vertex = self.vertex_entry.get()
