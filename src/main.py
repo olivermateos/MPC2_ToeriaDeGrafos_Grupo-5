@@ -3,11 +3,6 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import os
 from graph import Graph  
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
-
 ASSETS_DIR = "C:\\Users\\usuario\\Desktop\\MPC2\\assets"
 
 class GraphApp:
@@ -19,7 +14,7 @@ class GraphApp:
         if not os.path.exists(ASSETS_DIR):
             os.makedirs(ASSETS_DIR)
 
-<<<<<<< HEAD
+
         self.canvas = tk.Canvas(self.root, bg='lightblue') 
         self.scrollbar = tk.Scrollbar(self.root, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = tk.Frame(self.canvas, bg='lightblue')  
@@ -41,10 +36,7 @@ class GraphApp:
         self.vertex_entry = tk.Entry(self.scrollable_frame)
         self.edge_entry = tk.Entry(self.scrollable_frame)
         self.vertex_listbox = tk.Listbox(self.scrollable_frame, height=6) 
-        self.edge_listbox = tk.Listbox(self.scrollable_frame, height=6) 
-
-=======
-
+        self.edge_listbox = tk.Listbox(self.scrollable_frame, height=6)
         self.canvas = tk.Canvas(self.root, bg='lightblue') 
         self.scrollbar = tk.Scrollbar(self.root, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = tk.Frame(self.canvas, bg='lightblue')  
@@ -68,9 +60,6 @@ class GraphApp:
         self.edge_entry = tk.Entry(self.scrollable_frame)
         self.vertex_listbox = tk.Listbox(self.scrollable_frame, height=6) 
         self.edge_listbox = tk.Listbox(self.scrollable_frame, height=6) 
-
-
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
         self.setup_ui()
 
     def setup_ui(self):
@@ -86,15 +75,6 @@ class GraphApp:
 
         tk.Button(self.scrollable_frame, text="Generar Grafo", command=self.render_graph, bg='blue', fg='white', font=('Helvetica', 10)).grid(row=2, column=1)
 
-<<<<<<< HEAD
-        vertex_frame = tk.Frame(self.scrollable_frame, bg='lightblue')
-        vertex_frame.grid(row=3, column=0)
-
-        tk.Label(vertex_frame, text="Vértices Agregados:", bg='lightblue', font=('Helvetica', 12)).pack()
-        self.vertex_listbox = tk.Listbox(vertex_frame, height=6, bg='lightyellow', font=('Helvetica', 10))
-        self.vertex_listbox.pack(side=tk.LEFT, fill=tk.BOTH)
-
-=======
 
         vertex_frame = tk.Frame(self.scrollable_frame, bg='lightblue')
         vertex_frame.grid(row=3, column=0)
@@ -102,16 +82,16 @@ class GraphApp:
         tk.Label(vertex_frame, text="Vértices Agregados:", bg='lightblue', font=('Helvetica', 12)).pack()
         self.vertex_listbox = tk.Listbox(vertex_frame, height=6, bg='lightyellow', font=('Helvetica', 10))
         self.vertex_listbox.pack(side=tk.LEFT, fill=tk.BOTH)
-
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
+        vertex_frame = tk.Frame(self.scrollable_frame, bg='lightblue')
+        vertex_frame.grid(row=3, column=0)
+        tk.Label(vertex_frame, text="Vértices Agregados:", bg='lightblue', font=('Helvetica', 12)).pack()
+        self.vertex_listbox = tk.Listbox(vertex_frame, height=6, bg='lightyellow', font=('Helvetica', 10))
+        self.vertex_listbox.pack(side=tk.LEFT, fill=tk.BOTH)
         self.vertex_scrollbar = tk.Scrollbar(vertex_frame, orient=tk.VERTICAL, command=self.vertex_listbox.yview)
         self.vertex_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.vertex_listbox.config(yscrollcommand=self.vertex_scrollbar.set)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
         edge_frame = tk.Frame(self.scrollable_frame, bg='lightblue')
         edge_frame.grid(row=3, column=1)
 
@@ -137,35 +117,22 @@ class GraphApp:
         tk.Label(self.scrollable_frame, text="Grafo DFS:", bg='lightblue', font=('Helvetica', 12)).grid(row=10, column=0)
         self.dfs_canvas = tk.Label(self.scrollable_frame, bg='white')
         self.dfs_canvas.grid(row=11, column=0, columnspan=3)
-
-<<<<<<< HEAD
         tk.Button(self.scrollable_frame, text="Limpiar", command=self.clear_graph, bg='red', fg='white', font=('Helvetica', 10)).grid(row=12, column=1)
 
     def clear_graph(self):
-=======
-
         tk.Button(self.scrollable_frame, text="Limpiar", command=self.clear_graph, bg='red', fg='white', font=('Helvetica', 10)).grid(row=12, column=1)
-
-    def clear_graph(self):
-
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
+    def clear_graph(self): 
         self.vertex_entry.delete(0, tk.END)
         self.edge_entry.delete(0, tk.END)
         self.vertex_listbox.delete(0, tk.END)
         self.edge_listbox.delete(0, tk.END)
-<<<<<<< HEAD
-        self.original_canvas.config(image='')
-        self.bfs_canvas.config(image='')
-        self.dfs_canvas.config(image='')
-=======
-        
 
         self.original_canvas.config(image='')
         self.bfs_canvas.config(image='')
         self.dfs_canvas.config(image='')
-        
- 
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
+        self.original_canvas.config(image='')
+        self.bfs_canvas.config(image='')
+        self.dfs_canvas.config(image='') 
         self.graph = Graph()
         messagebox.showinfo("Limpiar", "Todos los datos han sido limpiados.")
 
@@ -188,11 +155,7 @@ class GraphApp:
         except ValueError:
             messagebox.showerror("Error", "Formato incorrecto. Use A-B.")
 
-    def render_graph(self):
-<<<<<<< HEAD
-=======
- 
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
+    def render_graph(self): 
         self.graph.render_graph('original')
         self.show_image(os.path.join(ASSETS_DIR, 'original.png'), self.original_canvas)
 
@@ -215,16 +178,15 @@ class GraphApp:
         self.show_image(os.path.join(ASSETS_DIR, 'dfs.png'), self.dfs_canvas)
 
     def show_image(self, image_path, canvas):
-<<<<<<< HEAD
+
         if os.path.exists(image_path):
             img = Image.open(image_path)
             img = img.resize((400, 300), Image.Resampling.LANCZOS)
-=======
+
 
         if os.path.exists(image_path):
             img = Image.open(image_path)
             img = img.resize((400, 300), Image.Resampling.LANCZOS)  
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
             img_tk = ImageTk.PhotoImage(img)
             canvas.config(image=img_tk)
             canvas.image = img_tk
@@ -232,8 +194,5 @@ class GraphApp:
 if __name__ == "__main__":
     root = tk.Tk()
     app = GraphApp(root)
-<<<<<<< HEAD
     root.mainloop()
-=======
     root.mainloop() 
->>>>>>> 0d4fafd442ee22948277ef41cd7a6366e9821b7b
